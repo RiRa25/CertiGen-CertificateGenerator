@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiMaker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 0;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.75em;
+            color: #16a085;
+            margin-top: 0;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        select, input[type="file"], button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #229954;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .templates {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .template-item {
+            text-align: center;
+            width: 30%;
+            transition: transform 0.3s;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .template-item img {
+            max-width: 250px;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .template-item:hover {
+            transform: scale(1.05);
+        }
+        .template-item input {
+            margin-bottom: 5px;
+        }
+        .template-item label {
+            display: block;
+            margin: 5px 0;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CertiMaker</h1>
+        <h2>Select a Template and Upload CSV</h2>
+        <form id="templateForm">
+            <label>Choose a certificate template:</label>
+            <div class="templates">
+                <div class="template-item">
+                    <input type="radio" id="template1" name="template" value="certificate_template1.svg">
+                    <label for="template1">
+                        <img src="/static/template1.png" alt="Template 1">
+                        <br>
+                        Template 1 <br>
+                        Certificate of Completion
+                    </label>
+                </div>
+                <div class="template-item">
+                    <input type="radio" id="template2" name="template" value="certificate_template2.svg">
+                    <label for="template2">
+                        <img src="/static/template2.png" alt="Template 2">
+                        <br>
+                        Template 2 <br>
+                        Certificate of Achievement
+                    </label>
+                </div>
+                <div class="template-item">
+                    <input type="radio" id="template3" name="template" value="certificate_template3.svg">
+                    <label for="template3">
+                        <img src="/static/template3.png" alt="Template 3">
+                        <br>
+                        Template 3 <br>
+                        Certificate of Participation
+                    </label>
+                </div>
+            </div>
+            <br>
+            <input type="file" id="csvFile" name="file" accept=".csv">
+            <br>
+            <button type="button" onclick="upload()">Upload CSV</button>
+        </form>
+        <br>
+        <a href="/certificates">View Certificates</a>
+    </div>
+
+    <script>
+        function upload() {
+            const form = document.getElementById('templateForm');
+            const formData = new FormData(form);
+            const fileInput = document.getElementById('csvFile');
+            const templateSelected = form.querySelector('input[name="template"]:checked');
+
+            if (fileInput.files.length === 0) {
+                alert('Please select a CSV file.');
+                return;
+            }
+
+            if (!templateSelected) {
+                alert('Please select a template.');
+                return;
+            }
+
+            formData.append('template', templateSelected.value);
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.text())
+              .then(text => {
+                  document.body.innerHTML = text;
+              })
+              .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
+
