@@ -15,51 +15,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-/*class CertificateGen {
-
-    public static List<String> Generate(String svgTemplateFile, String DataFile) {
-        List<String> generatedFiles = new ArrayList<>();
-        try {
-            String svgTemplate = new String(Files.readAllBytes(Paths.get(svgTemplateFile)));
-            Files.createDirectories(Paths.get("certificates"));
-
-            BufferedReader br = new BufferedReader(new FileReader(DataFile));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                String name = values[0];
-                String course = values[1];
-                String date = values[2];
-
-                String modifiedSvg = svgTemplate.replace("id=\"svgName\">name", "id=\"svgName\">" + name)
-                        .replace("id=\"svgCourse\">course", "id=\"svgCourse\">" + course)
-                        .replace("id=\"svgDate\">date", "id=\"svgDate\">" + date);
-
-                String outputFileName = "certificates/" + name + ".png";
-                convertSvgToPng(modifiedSvg, outputFileName);
-                generatedFiles.add(name + ".png");
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return generatedFiles;
-    }
-
-    private static void convertSvgToPng(String svgContent, String outputPath) throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new InputSource(new StringReader(svgContent)));
-
-        PNGTranscoder transcoder = new PNGTranscoder();
-        TranscoderInput input = new TranscoderInput(document);
-        try (FileOutputStream outputStream = new FileOutputStream(outputPath)) {
-            TranscoderOutput output = new TranscoderOutput(outputStream);
-            transcoder.transcode(input, output);
-        }
-    }
-}*/
 
 public class CertificateGen{
 
